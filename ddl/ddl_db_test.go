@@ -160,9 +160,11 @@ LOOP:
 		}
 	}
 
+	// Make sure the table schema is the new schema.
+	time.Sleep(s.lease)
 	t := s.testGetTable(c, "t1")
 	for _, tidx := range t.Indices() {
-		c.Assert(strings.EqualFold(tidx.Meta().Name.L, "c3_index"), IsTrue)
+		c.Assert(strings.EqualFold(tidx.Meta().Name.L, "c3_index"), IsFalse)
 	}
 
 	// delete duplicate rows, then add index
